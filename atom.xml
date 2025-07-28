@@ -6,7 +6,7 @@
   <link href="https://ra1n-60w.github.io/atom.xml" rel="self"/>
   
   <link href="https://ra1n-60w.github.io/"/>
-  <updated>2025-07-28T13:31:59.727Z</updated>
+  <updated>2025-07-28T13:48:40.240Z</updated>
   <id>https://ra1n-60w.github.io/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://ra1n-60w.github.io/2025/07/28/te/"/>
     <id>https://ra1n-60w.github.io/2025/07/28/te/</id>
     <published>2025-07-28T11:40:22.000Z</published>
-    <updated>2025-07-28T13:31:59.727Z</updated>
+    <updated>2025-07-28T13:48:40.240Z</updated>
     
-    <content type="html"><![CDATA[<hr><p>这是文章的简介部分，显示在首页。</p><span id="more"></span><p>测试图片插入：</p><p><img src="/Rainbow.github.io/te/222.png" title="woow"></p>]]></content>
+    <content type="html"><![CDATA[<hr><p>这是文章的简介部分，显示在首页。</p><span id="more"></span><p>测试图片插入：</p>]]></content>
     
     
     <summary type="html">&lt;hr&gt;
@@ -62,7 +62,7 @@
     <published>2025-07-27T16:00:00.000Z</published>
     <updated>2025-07-28T09:07:51.458Z</updated>
     
-    <content type="html"><![CDATA[<p>分析了csrf的成因</p><span id="more"></span><h1 id="什么是-CSRF？"><a href="#什么是-CSRF？" class="headerlink" title="什么是 CSRF？"></a>什么是 CSRF？</h1><p>CSRF（Cross-Site Request Forgery，跨站请求伪造）是一种攻击方式，攻击者诱导已登录受信网站的用户，在不知情的情况下发送一个非本意的请求，从而在用户已认证的情况下执行未授权操作。</p><h2 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h2><p>假设你登录了 <code>https://bank.example.com</code> 并拥有合法的 session，此时攻击者让你访问一个恶意链接：</p><pre><code class="language-html">&lt;img src=&quot;https://bank.example.com/transfer?to=attacker&amp;amount=10000&quot; /&gt;</code></pre>]]></content>
+    <content type="html"><![CDATA[<p>分析了csrf的成因</p><span id="more"></span><h1 id="什么是-CSRF？"><a href="#什么是-CSRF？" class="headerlink" title="什么是 CSRF？"></a>什么是 CSRF？</h1><p>CSRF（Cross-Site Request Forgery，跨站请求伪造）是一种攻击方式，攻击者诱导已登录受信网站的用户，在不知情的情况下发送一个非本意的请求，从而在用户已认证的情况下执行未授权操作。</p><h2 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h2><p>假设你登录了 <code>https://bank.example.com</code> 并拥有合法的 session，此时攻击者让你访问一个恶意链接：</p><pre><code class="language-html">&lt;img src=&quot;/2025/07/28/222_副本/&quot;  /&gt;</code></pre>]]></content>
     
     
     <summary type="html">&lt;p&gt;分析了csrf的成因&lt;/p&gt;</summary>
