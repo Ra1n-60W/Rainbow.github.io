@@ -5,19 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 7.3.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/Rainbow.github.io/images/web-app-manifest-512x512.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/Rainbow.github.io/images/favicon-96x96.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/Rainbow.github.io/images/apple-touch-icon.png">
-  <link rel="mask-icon" href="/Rainbow.github.io/images/favicon.svg" color="#222">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/web-app-manifest-512x512.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/apple-touch-icon.png">
+  <link rel="mask-icon" href="/images/favicon.svg" color="#222">
 
-<link rel="stylesheet" href="/Rainbow.github.io/css/main.css">
+<link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/Rainbow.github.io/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"ra1n-60w.github.io","root":"/Rainbow.github.io/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"ra1n-60w.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="SSRF（Server-Side Request Forgery）详解一、什么是 SSRF？SSRF（Server-Side Request Forgery，服务端请求伪造）是一种由攻击者构造请求，由服务器端发起请求的漏洞。 攻击者诱导服务器发送内部网络请求，从而访问攻击者本无法访问的资源，比如：  内网应用（如管理后台） 云服务元数据（如 AWS EC2 Metadata） 本地服务端口（如 R">
@@ -79,7 +79,7 @@
   </style>
 </noscript>
 
-<link rel="alternate" href="/Rainbow.github.io/atom.xml" title="Ra1n_60W" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="Ra1n_60W" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
@@ -98,7 +98,7 @@
 
   <div class="site-meta">
 
-    <a href="/Rainbow.github.io/" class="brand" rel="start">
+    <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
       <h1 class="site-title">Ra1n_60W</h1>
       <span class="logo-line-after"><i></i></span>
@@ -120,27 +120,27 @@
   <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/Rainbow.github.io/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
 
   </li>
         <li class="menu-item menu-item-about">
 
-    <a href="/Rainbow.github.io/about/" rel="section"><i class="user fa-fw"></i>关于</a>
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/Rainbow.github.io/tags/" rel="section"><i class="tags fa-fw"></i>标签</a>
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/Rainbow.github.io/categories/" rel="section"><i class="th fa-fw"></i>分类</a>
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/Rainbow.github.io/archives/" rel="section"><i class="archive fa-fw"></i>归档</a>
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -204,7 +204,7 @@
     <link itemprop="mainEntityOfPage" href="https://ra1n-60w.github.io/2025/07/28/222/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/Rainbow.github.io/images/apple-touch-icon.png">
+      <meta itemprop="image" content="/images/apple-touch-icon.png">
       <meta itemprop="name" content="Ra1n_60W">
       <meta itemprop="description" content="woow">
     </span>
@@ -233,7 +233,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/Rainbow.github.io/categories/%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6/" itemprop="url" rel="index"><span itemprop="name">安全研究</span></a>
+                  <a href="/categories/%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6/" itemprop="url" rel="index"><span itemprop="name">安全研究</span></a>
                 </span>
             </span>
 
@@ -356,9 +356,9 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/Rainbow.github.io/tags/%E5%AE%89%E5%85%A8/" rel="tag"># 安全</a>
-              <a href="/Rainbow.github.io/tags/SSRF/" rel="tag"># SSRF</a>
-              <a href="/Rainbow.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag"># 渗透测试</a>
+              <a href="/tags/%E5%AE%89%E5%85%A8/" rel="tag"># 安全</a>
+              <a href="/tags/SSRF/" rel="tag"># SSRF</a>
+              <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag"># 渗透测试</a>
           </div>
 
         
@@ -367,7 +367,7 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/Rainbow.github.io/2025/07/28/222_%E5%89%AF%E6%9C%AC/" rel="prev" title="CSRF攻击详解与防御">
+    <a href="/2025/07/28/222_%E5%89%AF%E6%9C%AC/" rel="prev" title="CSRF攻击详解与防御">
       <i class="fa fa-chevron-left"></i> CSRF攻击详解与防御
     </a></div>
       <div class="post-nav-item"></div>
@@ -436,14 +436,14 @@
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="Ra1n_60W"
-      src="/Rainbow.github.io/images/apple-touch-icon.png">
+      src="/images/apple-touch-icon.png">
   <p class="site-author-name" itemprop="name">Ra1n_60W</p>
   <div class="site-description" itemprop="description">woow</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/Rainbow.github.io/archives/">
+          <a href="/archives/">
         
           <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">日志</span>
@@ -504,21 +504,21 @@
   </div>
 
   
-  <script src="/Rainbow.github.io/lib/anime.min.js"></script>
-  <script src="/Rainbow.github.io/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
-  <script src="/Rainbow.github.io/lib/velocity/velocity.min.js"></script>
-  <script src="/Rainbow.github.io/lib/velocity/velocity.ui.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
-<script src="/Rainbow.github.io/js/utils.js"></script>
+<script src="/js/utils.js"></script>
 
-<script src="/Rainbow.github.io/js/motion.js"></script>
-
-
-<script src="/Rainbow.github.io/js/schemes/pisces.js"></script>
+<script src="/js/motion.js"></script>
 
 
-<script src="/Rainbow.github.io/js/next-boot.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
 
   <script>
 var pjax = new Pjax({
@@ -588,7 +588,7 @@ window.addEventListener('pjax:success', () => {
 
 
   
-<script src="/Rainbow.github.io/js/local-search.js"></script>
+<script src="/js/local-search.js"></script>
 
 
 

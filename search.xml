@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>SSRF（服务端请求伪造）详解</title>
-    <url>/Rainbow.github.io/2025/07/28/222/</url>
+    <url>/2025/07/28/222/</url>
     <content><![CDATA[<h1 id="SSRF（Server-Side-Request-Forgery）详解"><a href="#SSRF（Server-Side-Request-Forgery）详解" class="headerlink" title="SSRF（Server-Side Request Forgery）详解"></a>SSRF（Server-Side Request Forgery）详解</h1><h2 id="一、什么是-SSRF？"><a href="#一、什么是-SSRF？" class="headerlink" title="一、什么是 SSRF？"></a>一、什么是 SSRF？</h2><p>SSRF（Server-Side Request Forgery，服务端请求伪造）是一种<strong>由攻击者构造请求，由服务器端发起请求</strong>的漏洞。</p>
 <p>攻击者诱导服务器发送内部网络请求，从而访问攻击者本无法访问的资源，比如：</p>
 <ul>
@@ -114,7 +114,7 @@
   </entry>
   <entry>
     <title>CSRF攻击详解与防御</title>
-    <url>/Rainbow.github.io/2025/07/28/222_%E5%89%AF%E6%9C%AC/</url>
+    <url>/2025/07/28/222_%E5%89%AF%E6%9C%AC/</url>
     <content><![CDATA[<h1 id="什么是-CSRF？"><a href="#什么是-CSRF？" class="headerlink" title="什么是 CSRF？"></a>什么是 CSRF？</h1><p>CSRF（Cross-Site Request Forgery，跨站请求伪造）是一种攻击方式，攻击者诱导已登录受信网站的用户，在不知情的情况下发送一个非本意的请求，从而在用户已认证的情况下执行未授权操作。</p>
 <h2 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h2><p>假设你登录了 <code>https://bank.example.com</code> 并拥有合法的 session，此时攻击者让你访问一个恶意链接：</p>
 <pre><code class="language-html">&lt;img src=&quot;https://bank.example.com/transfer?to=attacker&amp;amount=10000&quot; /&gt;
