@@ -400,8 +400,6 @@
   </div>
 
 
-
-
 <style>
   #splash-overlay {
     position: fixed;
@@ -422,7 +420,6 @@
     padding: 2rem;
     box-sizing: border-box;
     transition: opacity 0.6s ease;
-    cursor: pointer;
   }
 
   #splash-overlay.fade-out {
@@ -438,25 +435,36 @@
   #splash-overlay p {
     font-size: 1.2rem;
     color: #ccc;
+    margin-bottom: 2rem;
+  }
+
+  #splash-overlay button {
+    padding: 0.6rem 1.5rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 6px;
+    background-color: #3498db;
+    color: white;
+    cursor: pointer;
   }
 </style>
 
-<div id="splash-overlay" onclick="closeSplash()">
+<div id="splash-overlay">
   <h1>🎉 欢迎访问 Ra1n_60W 的博客</h1>
-  <p>点击进入</p>
+  <p>点击按钮进入主页</p>
+  <button onclick="closeSplash()">进入</button>
 </div>
 
 <script>
   function closeSplash() {
     const splash = document.getElementById('splash-overlay');
     splash.classList.add('fade-out');
-    localStorage.setItem('splash_shown', 'true'); // 记住已关闭
+    localStorage.setItem('splash_shown', 'true');
     setTimeout(() => {
       splash.remove();
     }, 600);
   }
 
-  // 页面加载时检查是否展示
   window.addEventListener('DOMContentLoaded', () => {
     if (localStorage.getItem('splash_shown')) {
       const splash = document.getElementById('splash-overlay');
@@ -464,6 +472,7 @@
     }
   });
 </script>
+
 
         
 
