@@ -210,7 +210,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/Rainbow.github.io/2025/07/28/222/" class="post-title-link" itemprop="url">未命名</a>
+            <a href="/Rainbow.github.io/2025/07/28/222/" class="post-title-link" itemprop="url">SSRF（服务端请求伪造）详解</a>
         </h2>
 
         <div class="post-meta">
@@ -221,7 +221,16 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2025-07-28 16:06:29 / 修改时间：16:12:48" itemprop="dateCreated datePublished" datetime="2025-07-28T16:06:29+08:00">2025-07-28</time>
+              <time title="创建时间：2025-07-28 08:19:35 / 修改时间：16:21:43" itemprop="dateCreated datePublished" datetime="2025-07-28T08:19:35+08:00">2025-07-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/Rainbow.github.io/categories/%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6/" itemprop="url" rel="index"><span itemprop="name">安全研究</span></a>
+                </span>
             </span>
 
           
@@ -235,8 +244,177 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <hr>
-<h2 id="tets"><a href="#tets" class="headerlink" title="tets"></a>tets</h2>
+          <h1 id="SSRF（Server-Side-Request-Forgery）详解"><a href="#SSRF（Server-Side-Request-Forgery）详解" class="headerlink" title="SSRF（Server-Side Request Forgery）详解"></a>SSRF（Server-Side Request Forgery）详解</h1><h2 id="一、什么是-SSRF？"><a href="#一、什么是-SSRF？" class="headerlink" title="一、什么是 SSRF？"></a>一、什么是 SSRF？</h2><p>SSRF（Server-Side Request Forgery，服务端请求伪造）是一种<strong>由攻击者构造请求，由服务器端发起请求</strong>的漏洞。</p>
+<p>攻击者诱导服务器发送内部网络请求，从而访问攻击者本无法访问的资源，比如：</p>
+<ul>
+<li>内网应用（如管理后台）</li>
+<li>云服务元数据（如 AWS EC2 Metadata）</li>
+<li>本地服务端口（如 Redis）</li>
+<li>文件协议（如 file:&#x2F;&#x2F;）</li>
+</ul>
+<hr>
+<h2 id="二、攻击流程示意图"><a href="#二、攻击流程示意图" class="headerlink" title="二、攻击流程示意图"></a>二、攻击流程示意图</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[ Attacker ] ---&gt; [ Web Server (with SSRF) ] ---&gt; [ Internal Resource ]</span><br><span class="line">         用户提交URL参数               服务器请求目标地址（由攻击者控制）</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="三、漏洞示例（Node-js-Express）"><a href="#三、漏洞示例（Node-js-Express）" class="headerlink" title="三、漏洞示例（Node.js + Express）"></a>三、漏洞示例（Node.js + Express）</h2><h3 id="3-1-漏洞代码（未做任何校验）"><a href="#3-1-漏洞代码（未做任何校验）" class="headerlink" title="3.1 漏洞代码（未做任何校验）"></a>3.1 漏洞代码（未做任何校验）</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> axios = <span class="built_in">require</span>(<span class="string">&#x27;axios&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>();</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&#x27;/fetch&#x27;</span>, <span class="title function_">async</span> (req, res) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> url = req.<span class="property">query</span>.<span class="property">url</span>;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> response = <span class="keyword">await</span> axios.<span class="title function_">get</span>(url);</span><br><span class="line">    res.<span class="title function_">send</span>(response.<span class="property">data</span>);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    res.<span class="title function_">status</span>(<span class="number">500</span>).<span class="title function_">send</span>(<span class="string">&#x27;Request failed&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">listen</span>(<span class="number">3000</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Listening on port 3000&#x27;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-攻击样例"><a href="#3-2-攻击样例" class="headerlink" title="3.2 攻击样例"></a>3.2 攻击样例</h3><p>访问：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:3000/fetch?url=http://127.0.0.1:8000/admin</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="四、攻击目标类型"><a href="#四、攻击目标类型" class="headerlink" title="四、攻击目标类型"></a>四、攻击目标类型</h2><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>示例地址</th>
+<th>风险描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>内网地址</td>
+<td><code>http://127.0.0.1</code>, <code>http://192.168.*.*</code></td>
+<td>可探测服务端口、弱口令等</td>
+</tr>
+<tr>
+<td>云元数据服务</td>
+<td><code>http://169.254.169.254</code></td>
+<td>窃取云平台密钥（如 AWS）</td>
+</tr>
+<tr>
+<td>文件协议</td>
+<td><code>file:///etc/passwd</code></td>
+<td>读取服务器本地敏感文件</td>
+</tr>
+<tr>
+<td>Gopher协议</td>
+<td><code>gopher://127.0.0.1:6379/_...</code></td>
+<td>构造 Redis&#x2F;RCE 攻击载荷</td>
+</tr>
+<tr>
+<td>DNS Rebinding</td>
+<td>利用特殊 DNS 返回 127.0.0.1</td>
+<td>绕过域名白名单防护</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="五、常见-SSRF-绕过技巧"><a href="#五、常见-SSRF-绕过技巧" class="headerlink" title="五、常见 SSRF 绕过技巧"></a>五、常见 SSRF 绕过技巧</h2><ol>
+<li><strong>DNS 回环域名</strong></li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://localhost</span><br><span class="line">http://127.0.0.1</span><br><span class="line">http://[::1]</span><br><span class="line">http://0x7f000001</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>URL 编码绕过</strong></li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1%2Fadmin</span><br><span class="line">http://127.0.0.1%3a80/</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><strong>302 跳转链 SSRF</strong></li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://evil.com/redirect?to=http://127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><strong>DNS Rebinding</strong></li>
+</ol>
+<p>注册域名指向本地，绕过过滤。</p>
+<hr>
+<h2 id="六、CTF-实战案例"><a href="#六、CTF-实战案例" class="headerlink" title="六、CTF 实战案例"></a>六、CTF 实战案例</h2><p>某 CTF 网站提供接口：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://challenge.com/fetch?url=http://example.com</span><br></pre></td></tr></table></figure>
+
+<p>攻击者尝试：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://challenge.com/fetch?url=http://169.254.169.254/latest/meta-data/iam/security-credentials/</span><br></pre></td></tr></table></figure>
+
+<p>服务器成功访问 AWS 元数据接口，返回包含 AccessKeyId 与 SecretAccessKey 的敏感信息。</p>
+<hr>
+<h2 id="七、防御方式"><a href="#七、防御方式" class="headerlink" title="七、防御方式"></a>七、防御方式</h2><h3 id="1-设置-URL-白名单"><a href="#1-设置-URL-白名单" class="headerlink" title="1. 设置 URL 白名单"></a>1. 设置 URL 白名单</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> safeHosts = [<span class="string">&#x27;api.example.com&#x27;</span>, <span class="string">&#x27;news.example.com&#x27;</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">isSafeHost</span>(<span class="params">url</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> parsed = <span class="keyword">new</span> <span class="title function_">URL</span>(url);</span><br><span class="line">  <span class="keyword">return</span> safeHosts.<span class="title function_">includes</span>(parsed.<span class="property">hostname</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-阻止私有地址段访问"><a href="#2-阻止私有地址段访问" class="headerlink" title="2. 阻止私有地址段访问"></a>2. 阻止私有地址段访问</h3><p>拦截以下地址段请求：</p>
+<ul>
+<li><code>127.0.0.1</code> &#x2F; <code>localhost</code></li>
+<li><code>10.0.0.0/8</code></li>
+<li><code>172.16.0.0/12</code></li>
+<li><code>192.168.0.0/16</code></li>
+<li><code>169.254.169.254</code></li>
+</ul>
+<h3 id="3-使用代理服务器隔离"><a href="#3-使用代理服务器隔离" class="headerlink" title="3. 使用代理服务器隔离"></a>3. 使用代理服务器隔离</h3><p>通过服务网关或代理控制请求目标。</p>
+<h3 id="4-添加-WAF-校验"><a href="#4-添加-WAF-校验" class="headerlink" title="4. 添加 WAF 校验"></a>4. 添加 WAF 校验</h3><p>部署 Web 应用防火墙进行目标过滤。</p>
+<hr>
+<h2 id="八、总结"><a href="#八、总结" class="headerlink" title="八、总结"></a>八、总结</h2><ul>
+<li>SSRF 本质是服务端被“欺骗”发起了不该发的请求。</li>
+<li>攻击者可借此访问受保护资源，甚至造成信息泄露、命令执行等严重后果。</li>
+<li>编写 Web 服务时，应<strong>严格验证外部输入参数，避免直接拼接 URL 发起请求</strong>。</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ra1n-60w.github.io/2025/07/28/222_%E5%89%AF%E6%9C%AC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/Rainbow.github.io/images/apple-touch-icon.png">
+      <meta itemprop="name" content="Ra1n_60W">
+      <meta itemprop="description" content="woow">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ra1n_60W">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/Rainbow.github.io/2025/07/28/222_%E5%89%AF%E6%9C%AC/" class="post-title-link" itemprop="url">CSRF攻击详解与防御</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2025-07-28 00:00:00 / 修改时间：16:22:48" itemprop="dateCreated datePublished" datetime="2025-07-28T00:00:00+08:00">2025-07-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/Rainbow.github.io/categories/%E5%AE%89%E5%85%A8%E7%9F%A5%E8%AF%86/" itemprop="url" rel="index"><span itemprop="name">安全知识</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="什么是-CSRF？"><a href="#什么是-CSRF？" class="headerlink" title="什么是 CSRF？"></a>什么是 CSRF？</h1><p>CSRF（Cross-Site Request Forgery，跨站请求伪造）是一种攻击方式，攻击者诱导已登录受信网站的用户，在不知情的情况下发送一个非本意的请求，从而在用户已认证的情况下执行未授权操作。</p>
+<h2 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h2><p>假设你登录了 <code>https://bank.example.com</code> 并拥有合法的 session，此时攻击者让你访问一个恶意链接：</p>
+<pre><code class="language-html">&lt;img src=&quot;https://bank.example.com/transfer?to=attacker&amp;amount=10000&quot; /&gt;
+</code></pre>
+
       
     </div>
 
@@ -319,9 +497,17 @@
       <div class="site-state-item site-state-posts">
           <a href="/Rainbow.github.io/archives/">
         
-          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">日志</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span>
       </div>
   </nav>
 </div>
