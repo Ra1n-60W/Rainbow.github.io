@@ -6,7 +6,7 @@
   <link href="https://ra1n-60w.github.io/atom.xml" rel="self"/>
   
   <link href="https://ra1n-60w.github.io/"/>
-  <updated>2025-07-28T13:58:33.647Z</updated>
+  <updated>2025-07-29T01:31:44.259Z</updated>
   <id>https://ra1n-60w.github.io/</id>
   
   <author>
@@ -15,6 +15,24 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>oo</title>
+    <link href="https://ra1n-60w.github.io/2025/07/28/oo/"/>
+    <id>https://ra1n-60w.github.io/2025/07/28/oo/</id>
+    <published>2025-07-28T11:40:22.000Z</published>
+    <updated>2025-07-29T01:31:44.259Z</updated>
+    
+    <content type="html"><![CDATA[<hr><p>这是文章的简介部分，显示在首页。</p><span id="more"></span><p>测试图片插入：</p><img src="/Rainbow.github.io/2025/07/28/oo/oo.png" class="">]]></content>
+    
+    
+    <summary type="html">&lt;hr&gt;
+&lt;p&gt;这是文章的简介部分，显示在首页。&lt;/p&gt;</summary>
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>te</title>
